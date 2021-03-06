@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
+// import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const ProductOuterContainer = styled.div`
     width: 65%;
@@ -76,27 +77,38 @@ function ProductComponent(props) {
                 <ProductTitle>Day to Day plan</ProductTitle>
                 <ProductChooser>
                     <OneDayPlanContainer>
+                        {/* <DragDropContext onDragEnd={this.onDragEnd}> */}
+                        {/* <Droppable droppableId="droppable"> */}
+
                         {Object.keys(dayDataMap).map((value, key) => {
                             return (
                                 <React.Fragment key={value}>
                                     <Date>{value}</Date>
-                                    {
-                                        dayDataMap[value].map((element, key) => {
-                                            const {time, place, description, images} = element
-                                            return(
-                                                <OneDayPlan
-                                                    key={key}
-                                                    time = {time}
-                                                    place = {place}
-                                                    description = {description}
-                                                    images = {images}
-                                                />
-                                            )
-                                        })
-                                    }
+                                    {dayDataMap[value].map((element, key) => {
+                                        const {
+                                            time,
+                                            place,
+                                            description,
+                                            images,
+                                        } = element;
+                                        return (
+                                            // <Draggable key={key} draggableId={key} index={key}>
+                                            <OneDayPlan
+                                                key={key}
+                                                time={time}
+                                                place={place}
+                                                description={description}
+                                                images={images}
+                                            />
+                                            // </Draggable>
+                                        );
+                                    })}
                                 </React.Fragment>
                             );
                         })}
+
+                        {/* </Droppable> */}
+                        {/* </DragDropContext> */}
                     </OneDayPlanContainer>
                 </ProductChooser>
             </ProductContainer>
@@ -178,22 +190,27 @@ const ImagesContainer = styled.div`
 `
 
 function OneDayPlan({ time, place, description, images }) {
-        return (
-            <DayPlanContainer>
-                <div>{time}</div>
-                <div>{place}</div>
-                <div>{description}</div>
-                <ImagesContainer>
-                    {
-                        images.map(element => {
-                            return (
-                                <img alt="images" src={element} width="60" height="60"/>
-                            )
-                        })
-                    }
-                </ImagesContainer>
-            </DayPlanContainer>
-        )
+
+    return (
+        <DayPlanContainer>
+            <div>{time}</div>
+            <div>{place}</div>
+            <div>{description}</div>
+            <ImagesContainer>
+                {images.map((element, key) => {
+                    return (
+                        <img
+                            key={key}
+                            alt="images"
+                            src={element}
+                            width="60"
+                            height="60"
+                        />
+                    );
+                })}
+            </ImagesContainer>
+        </DayPlanContainer>
+    );
 }
 
 export default ProductComponent;
